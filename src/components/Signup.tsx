@@ -3,14 +3,12 @@ import { auth, db, storage } from "../firebase/config";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { useHistory } from "react-router-dom";
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [avatar, setAvatar] = useState<File | null>(null);
-  const history = useHistory();
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
