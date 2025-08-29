@@ -64,29 +64,59 @@ const Chat: React.FC<ChatProps> = ({ selectedFriend }) => {
   };
 
   return (
-    <div style={{ flex: 1, overflowY: "auto", padding: "1em" }}>
-      <div>
+    <div
+      style={{
+        maxWidth: 400,
+        margin: "40px auto",
+        border: "1px solid #e0e0e0",
+        borderRadius: 8,
+        boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
+        background: "#fff",
+        display: "flex",
+        flexDirection: "column",
+        height: 500,
+        padding: "1em",
+        overflowY: "auto",
+      }}
+    >
+      <div
+        style={{
+          padding: "16px",
+          borderBottom: "1px solid #eee",
+          fontWeight: "bold",
+          fontSize: "1.1rem",
+        }}
+      >
+        Chat Room
+      </div>
+      <div
+        style={{
+          flex: 1,
+          padding: "16px",
+          overflowY: "auto",
+          display: "flex",
+          flexDirection: "column",
+          gap: "12px",
+        }}
+      >
         {messages.map((msg, idx) => (
           <div
             key={idx}
             style={{
-              textAlign: msg.from === auth.currentUser?.uid ? "right" : "left",
+              alignSelf: msg.from === auth.currentUser?.uid ? "flex-end" : "flex-start",
+              background: msg.from === auth.currentUser?.uid ? "#4078c0" : "#f1f1f1",
+              color: msg.from === auth.currentUser?.uid ? "#fff" : "#222",
+              borderRadius: "16px",
+              padding: "0.5em 1em",
+              maxWidth: "60%",
+              wordBreak: "break-word",
               margin: "0.5em 0",
             }}
           >
-            <span
-              style={{
-                display: "inline-block",
-                background: msg.from === auth.currentUser?.uid ? "#4078c0" : "#eee",
-                color: msg.from === auth.currentUser?.uid ? "#fff" : "#222",
-                borderRadius: "16px",
-                padding: "0.5em 1em",
-                maxWidth: "60%",
-                wordBreak: "break-word",
-              }}
-            >
-              {msg.text}
-            </span>
+            <span style={{ fontWeight: "bold", fontSize: "0.95em" }}>
+              {msg.from === auth.currentUser?.uid ? "You" : msg.from}:
+            </span>{" "}
+            {msg.text}
             <div style={{ fontSize: "0.8em", color: "#888" }}>
               {msg.timestamp?.toDate
                 ? msg.timestamp.toDate().toLocaleTimeString()
@@ -96,15 +126,40 @@ const Chat: React.FC<ChatProps> = ({ selectedFriend }) => {
         ))}
         <div ref={messagesEndRef} />
       </div>
-      <div className="chat-footer">
+      <div
+        className="chat-footer"
+        style={{
+          display: "flex",
+          borderTop: "1px solid #eee",
+          padding: "12px",
+        }}
+      >
         <input
           className="message-input"
           placeholder="Type a message"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+          style={{
+            flex: 1,
+            padding: "10px",
+            borderRadius: 20,
+            border: "1px solid #ccc",
+            marginRight: 8,
+          }}
         />
-        <button className="send-btn" onClick={sendMessage}>
+        <button
+          className="send-btn"
+          onClick={sendMessage}
+          style={{
+            padding: "10px 18px",
+            borderRadius: 20,
+            border: "none",
+            background: "#1976d2",
+            color: "#fff",
+            fontWeight: "bold",
+          }}
+        >
           Send
         </button>
       </div>

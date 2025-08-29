@@ -25,13 +25,17 @@ const Signup: React.FC = () => {
           console.log("Avatar uploaded to storage");
           avatarUrl = await getDownloadURL(avatarRef);
           console.log("Avatar URL:", avatarUrl);
-          await updateProfile(userCredential.user, { photoURL: avatarUrl });
-          console.log("Profile updated with avatar");
         } catch (err: any) {
           console.error("Avatar upload failed:", err);
           alert("Avatar upload failed: " + err.message);
         }
       }
+      // Set both displayName and photoURL in profile
+      await updateProfile(userCredential.user, {
+        displayName: name,
+        photoURL: avatarUrl || null,
+      });
+      console.log("Profile updated with avatar and name");
       await addDoc(collection(db, "users"), {
         uid: userCredential.user.uid,
         name,
@@ -75,13 +79,6 @@ const Signup: React.FC = () => {
         onChange={e => setAvatar(e.target.files?.[0] || null)}
       />
       <button type="submit">Sign Up</button>
-      <button
-        type="button"
-        style={{ marginTop: "1em" }}
-        onClick={() => window.location.href = "/login"}
-      >
-        Test Redirect
-      </button>
       <p>
         Already have an account? <a href="/login">Login</a>
       </p>

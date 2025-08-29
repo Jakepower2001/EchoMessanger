@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { auth } from "../firebase/config";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/config";
 import { useHistory } from "react-router-dom";
 
 const Login: React.FC = () => {
@@ -12,8 +12,9 @@ const Login: React.FC = () => {
     e.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      localStorage.setItem("user", userCredential.user.uid); // Save user UID
-      history.push("/home");
+      await auth.currentUser?.reload(); // <-- Add this line
+      // Update your app state/context here if needed
+      window.location.href = "/"; // or your main page
     } catch (error: any) {
       alert(error.message);
     }
